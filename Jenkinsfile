@@ -1,26 +1,21 @@
-
-pipeline
-    agent any
-
-    stages{
-        stage('clone repository') {
+pipeline {
+    agent any  // ✅ Make sure this is correctly written
+    stages {
+        stage('Checkout Code') {
             steps {
-                git  branch: 'main', url: 'https://github.com/Saitejabatti/Finalproject.git'
+                git branch: 'main', url: 'https://github.com/Saitejabatti/Finalproject.git'
             }
         }
-
-        stage('Deploy') {
+        stage('Build') {
             steps {
-                sh 'echo "building the application"'
+                echo 'Building the application...'
             }
         }
-
-        stage('deploy to s3') {
+        stage('Deploy to S3') {
             steps {
-                script {
-                    echo 'Deploying to S3...'
-                    sh 'aws s3 sync . s3://mystaticwebsites3/ --delete'
-                }
+                sh 'aws s3 sync . s3://mystaticwebsites3 --delete'
             }
         }
     }
+}
+
